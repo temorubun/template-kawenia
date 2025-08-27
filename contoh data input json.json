@@ -1,0 +1,155 @@
+[
+  {
+    "data": [
+      {
+        "jenis_surat": "Surat Keterangan Tidak Mampu (SKTM)",
+        "nomor_surat": "400.2.1 / 767 / 2025",
+        "tanggal_surat": "26 Agustus 2025",
+        "pemohon": {
+          "nama": "MUSDAHLIFA",
+          "nik": "91709011408790006",
+          "ttl": "SERUI, 14-08-1979",
+          "agama": "ISLAM",
+          "jenis_kelamin": "LAKI-LAKI",
+          "status_perkawinan": "KAWIN",
+          "pekerjaan": "PEGAWAI NEGERI SIPIL (PNS)",
+          "alamat": "JL. SERAYU NO.305, RT 009/RW 004",
+          "kelurahan": "KAMORO JAYA",
+          "kecamatan": "WANIA",
+          "kota_kab": "MIMIKA",
+          "provinsi": "PAPUA TENGAH",
+          "domisili": "KAMORO JAYA, WANIA, MIMIKA, PAPUA TENGAH"
+        },
+        "dokumen": [
+          {
+            "label": "document",
+            "name": "document.pdf",
+            "mimeType": "application/pdf",
+            "size": 50850,
+            "file_id": "1omFSIYmOiejeT-xopwOPyiXMAkPL_NEX",
+            "download_url": "https://drive.google.com/uc?id=1omFSIYmOiejeT-xopwOPyiXMAkPL_NEX&export=download",
+            "view_url": "https://drive.google.com/file/d/1omFSIYmOiejeT-xopwOPyiXMAkPL_NEX/view?usp=drivesdk",
+            "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/application/pdf",
+            "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBObrJpArvbIxrhFA5ASeRAEH7s0TYn3j2hjd77mfaLQ2bBjIbZGXjbYltsfvNGvGwp3oM3GsZfPSPn1rZ8Mz-pil6xoXyb4T7ZhUi9JFY1Eeg=s220",
+            "createdTime": "2025-08-27T17:29:28.058Z"
+          },
+          {
+            "label": "template_kawe_nia_asisten_digital_dengan_salam(1)",
+            "name": "Template_KAWE_NIA_Asisten_Digital_dengan_Salam(1).pdf",
+            "mimeType": "application/pdf",
+            "size": 50850,
+            "file_id": "1ra2aLbbog6elIoLRwKnewVN4I_qVjVPj",
+            "download_url": "https://drive.google.com/uc?id=1ra2aLbbog6elIoLRwKnewVN4I_qVjVPj&export=download",
+            "view_url": "https://drive.google.com/file/d/1ra2aLbbog6elIoLRwKnewVN4I_qVjVPj/view?usp=drivesdk",
+            "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/application/pdf",
+            "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBMfG4X69kIp9EXULxCyMamSSVrD8iJ2fNErYvP6iIqKSZLgFLLSOW2SKYe8AW03Zk8DRTTMSLVcuKUrHNqI9V-IAg90X9Q-Wtn985WOr-rfRf0=s220",
+            "createdTime": "2025-08-27T17:29:34.497Z"
+          },
+          {
+            "label": "img_20250808_172735",
+            "name": "IMG_20250808_172735.jpg",
+            "mimeType": "image/jpeg",
+            "size": 2997809,
+            "file_id": "1aJPaCE3iKsYlNu37_IVE8ecNlChgspAj",
+            "download_url": "https://drive.google.com/uc?id=1aJPaCE3iKsYlNu37_IVE8ecNlChgspAj&export=download",
+            "view_url": "https://drive.google.com/file/d/1aJPaCE3iKsYlNu37_IVE8ecNlChgspAj/view?usp=drivesdk",
+            "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/image/jpeg",
+            "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBNHQPQsLrIHymvBoUsjhvfUJ6uTgqiigT5w7-CFRvZvayilcVskKv_UW_kExklzc2iF-aHbTrABVeOIgvlDT2uVS-ppZYERlQ2gCMgvJOIWoGU=s220",
+            "createdTime": "2025-08-27T17:29:39.451Z"
+          },
+          {
+            "label": "img_20250808_172733",
+            "name": "IMG_20250808_172733.jpg",
+            "mimeType": "image/jpeg",
+            "size": 2939471,
+            "file_id": "1fpoIGsz8u1D5Iwh5GRjH-AynEEpaOJCd",
+            "download_url": "https://drive.google.com/uc?id=1fpoIGsz8u1D5Iwh5GRjH-AynEEpaOJCd&export=download",
+            "view_url": "https://drive.google.com/file/d/1fpoIGsz8u1D5Iwh5GRjH-AynEEpaOJCd/view?usp=drivesdk",
+            "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/image/jpeg",
+            "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBPN0AOD8OYwk8N_B00u7FWiF1SB8NpwevQG-zpyTDwrUrONpsX6XyotIvpdFGhW0FYrvjadZ6oNjM4VDWUMH1EW4DttWsyBnwMcCTc2_Q5wXFo=s220",
+            "createdTime": "2025-08-27T17:29:43.430Z"
+          },
+          {
+            "label": "img_20250808_172724",
+            "name": "IMG_20250808_172724.jpg",
+            "mimeType": "image/jpeg",
+            "size": 3431827,
+            "file_id": "1QgqRJfk-eA8uN9RCqem1ODEphwTTRfSH",
+            "download_url": "https://drive.google.com/uc?id=1QgqRJfk-eA8uN9RCqem1ODEphwTTRfSH&export=download",
+            "view_url": "https://drive.google.com/file/d/1QgqRJfk-eA8uN9RCqem1ODEphwTTRfSH/view?usp=drivesdk",
+            "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/image/jpeg",
+            "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBMWoCrPS4itZd3FRCtqZsHAASZ8enyDN0doZcsS1DCVuwvaTb0fUEHSosMVlvVWZl6VmkcmDO4pU89pJj94u-SrQKG2QRzhmx-byCXXyakx0w=s220",
+            "createdTime": "2025-08-27T17:29:47.834Z"
+          },
+          {
+            "label": "img_20250808_172722",
+            "name": "IMG_20250808_172722.jpg",
+            "mimeType": "image/jpeg",
+            "size": 3393949,
+            "file_id": "1aFkNjx77hgZLbKCeCSvrtcU3MNsOBgd2",
+            "download_url": "https://drive.google.com/uc?id=1aFkNjx77hgZLbKCeCSvrtcU3MNsOBgd2&export=download",
+            "view_url": "https://drive.google.com/file/d/1aFkNjx77hgZLbKCeCSvrtcU3MNsOBgd2/view?usp=drivesdk",
+            "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/image/jpeg",
+            "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBNgCvYtiJsXZqgcuBDbbAjK-DfJn6tb6985BfD73izbb1PifJUUE1PJLguYQ1AlSYjUMouEJCZK7ub3gf-Vj4P2z1b9bTrerARQo2plyLMqGEA=s220",
+            "createdTime": "2025-08-27T17:29:52.005Z"
+          }
+        ],
+        "penandatangan": {
+          "nama": "Merlyn Temorubun",
+          "nip": "085230047347",
+          "jabatan": "Kepala Distrik"
+        },
+        "operator": "Kawe Nia",
+        "ref": "-",
+        "WAHA_Trigger_session": "KaweNia",
+        "WAHA_Trigger_payload_from": "6285230047347@c.us",
+        "LogoURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Lambang_Kabupaten_Mimika.jpg/500px-Lambang_Kabupaten_Mimika.jpg",
+        "URL_CREATE": "https://n8n-qz8tp6856ibc.bgxy.sumopod.my.id/webhook-test/1ae8a1a1-9f9d-4792-8505-9c84e1d3654b",
+        "URL_UPDATE": "https://n8n-qz8tp6856ibc.bgxy.sumopod.my.id/webhook-test/1ae8a1a1-9f9d-4792-8505-9c84e1d3654b",
+        "URL_DELETE": "https://n8n-qz8tp6856ibc.bgxy.sumopod.my.id/webhook-test/1ae8a1a1-9f9d-4792-8505-9c84e1d3654b",
+        "URL_UPLOAD": "https://n8n-qz8tp6856ibc.bgxy.sumopod.my.id/webhook/1ae8a1a1-9f9d-4792-8505-9c84e1d3654b",
+        "URL_DELETE_FILE": "https://n8n-qz8tp6856ibc.bgxy.sumopod.my.id/webhook-test/1ae8a1a1-9f9d-4792-8505-9c84e1d3654b",
+        "id_user": "1j_USrC1BA-dJJ232w7doHZvoqEEy538n",
+        "url_web_link": "https://distrikwania.com/data/1Vy35L_eaaTWkk_ePp99O_sXknH3WNj93",
+        "action": "upload_multiple",
+        "timestamp": "2025-08-27T17:29:18.717Z",
+        "files_info": [
+          {
+            "name": "document.pdf",
+            "size": 50850,
+            "type": "application/pdf"
+          },
+          {
+            "name": "Template_KAWE_NIA_Asisten_Digital_dengan_Salam(1).pdf",
+            "size": 50850,
+            "type": "application/pdf"
+          },
+          {
+            "name": "IMG_20250808_172735.jpg",
+            "size": 2997809,
+            "type": "image/jpeg"
+          },
+          {
+            "name": "IMG_20250808_172733.jpg",
+            "size": 2939471,
+            "type": "image/jpeg"
+          },
+          {
+            "name": "IMG_20250808_172724.jpg",
+            "size": 3431827,
+            "type": "image/jpeg"
+          },
+          {
+            "name": "IMG_20250808_172722.jpg",
+            "size": 3393949,
+            "type": "image/jpeg"
+          }
+        ]
+      }
+    ],
+    "kind": "drive#file",
+    "id": "1j_USrC1BA-dJJ232w7doHZvoqEEy538n",
+    "name": "28_08_2025_02_27_50_MUSDAHLIFA_91709011408790006\n",
+    "mimeType": "application/json"
+  }
+]
