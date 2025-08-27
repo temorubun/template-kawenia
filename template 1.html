@@ -532,6 +532,11 @@
               <div class="no-files-message">Belum ada file yang diupload</div>
             </div>
           </div>
+          <div class="stitle" style="margin-top:16px">Data JSON Terkirim</div>
+          <div id="serverDataDisplay" class="uploaded-files-container">
+            <div class="no-files-message">Belum ada data JSON terkirim</div>
+          </div>
+
           
           <div class="edit-actions">
             <button class="btn success" onclick="saveChanges()">💾 Simpan Perubahan</button>
@@ -666,28 +671,89 @@
         };
     }
 
-    function showPopup() {
-      // Create and show custom popup
-      const popup = document.createElement('div');
-      popup.className = 'popup-overlay';
-      popup.innerHTML = `
-        <div class="popup">
-          <div class="popup-icon">✅</div>
-          <div class="popup-title">Berhasil!</div>
-          <div class="popup-message">Data telah berhasil disimpan.</div>
-          <button class="popup-btn" onclick="closePopup()">OK</button>
-        </div>
-      `;
-      document.body.appendChild(popup);
-      popup.style.display = 'flex';
-    }
-
-    function closePopup() {
-      const popup = document.querySelector('.popup-overlay');
-      if (popup) {
-        popup.remove();
+      function showPopup() {
+        document.getElementById('popupOverlay').style.display = 'flex';
       }
-    }
+
+      function closePopup() {
+        document.getElementById('popupOverlay').style.display = 'none';
+      }
+
+      function showSaveSuccessPopup() {
+        const savePopup = document.createElement('div');
+        savePopup.className = 'popup-overlay';
+        savePopup.id = 'saveSuccessPopup';
+        savePopup.innerHTML = `
+          <div class="popup">
+            <div class="popup-icon">💾</div>
+            <div class="popup-title">Data Berhasil Diperbarui</div>
+            <div class="popup-message">
+              Perubahan data pemohon telah berhasil disimpan.
+            </div>
+            <button class="popup-btn" onclick="closeSaveSuccessPopup()">OK</button>
+          </div>
+        `;
+        document.body.appendChild(savePopup);
+        savePopup.style.display = 'flex';
+      }
+
+      function closeSaveSuccessPopup() {
+        const popup = document.getElementById('saveSuccessPopup');
+        if (popup) {
+          popup.remove();
+        }
+      }
+
+      function showDeleteSuccessPopup() {
+        const deleteSuccessPopup = document.createElement('div');
+        deleteSuccessPopup.className = 'popup-overlay';
+        deleteSuccessPopup.id = 'deleteSuccessPopup';
+        deleteSuccessPopup.innerHTML = `
+          <div class="popup">
+            <div class="popup-icon" style="color: #10b981;">🗑️</div>
+            <div class="popup-title" style="color: #10b981;">Data Berhasil Dihapus</div>
+            <div class="popup-message">
+              Surat dan data pemohon berhasil dihapus dari sistem.
+            </div>
+            <button class="popup-btn" onclick="closeDeleteSuccessPopup()">OK</button>
+          </div>
+        `;
+        document.body.appendChild(deleteSuccessPopup);
+        deleteSuccessPopup.style.display = 'flex';
+      }
+
+      function closeDeleteSuccessPopup() {
+        const popup = document.getElementById('deleteSuccessPopup');
+        if (popup) {
+          popup.remove();
+        }
+        window.location.reload();
+      }
+
+      function showFileUploadSuccessPopup() {
+        const uploadSuccessPopup = document.createElement('div');
+        uploadSuccessPopup.className = 'popup-overlay';
+        uploadSuccessPopup.id = 'fileUploadSuccessPopup';
+        uploadSuccessPopup.innerHTML = `
+          <div class="popup">
+            <div class="popup-icon">📤</div>
+            <div class="popup-title">File Berhasil Diupload</div>
+            <div class="popup-message">
+              File telah berhasil diunggah ke sistem.
+            </div>
+            <button class="popup-btn" onclick="closeFileUploadSuccessPopup()">OK</button>
+          </div>
+        `;
+        document.body.appendChild(uploadSuccessPopup);
+        uploadSuccessPopup.style.display = 'flex';
+      }
+
+      function closeFileUploadSuccessPopup() {
+        const popup = document.getElementById('fileUploadSuccessPopup');
+        if (popup) {
+          popup.remove();
+        }
+      }
 
 
     function toggleEditMode() {
@@ -869,55 +935,58 @@
         body: formData
       })
       .then(response => response.json())
-      .then(data => {
-        clearInterval(progressInterval);
-        progressBar.style.width = '100%';
-        
-        setTimeout(() => {
-          if (data.success || data.status === 'success') {
-            // Add files to uploaded list
-            selectedFiles.forEach(file => {
-              uploadedFiles.push({
-                id: Date.now().toString() + Math.random(),
-                name: file.name,
-                size: file.size,
-                type: file.type,
-                uploadDate: new Date().toISOString(),
-                status: 'Berhasil diupload'
+        .then(data => {
+          clearInterval(progressInterval);
+          progressBar.style.width = '100%';
+
+          setTimeout(() => {
+            if (data.success || data.status === 'success') {
+              // Add files to uploaded list
+              selectedFiles.forEach(file => {
+                uploadedFiles.push({
+                  id: Date.now().toString() + Math.random(),
+                  name: file.name,
+                  size: file.size,
+                  type: file.type,
+                  uploadDate: new Date().toISOString(),
+                  status: 'Berhasil diupload',
+                  webhookResponse: data
+                });
               });
-            });
-            
-            updateUploadedFilesDisplay();
-            
-            fileInfo.innerHTML = `✅ ${selectedFiles.length} file berhasil diunggah`;
-            fileInfo.className = 'file-info';
-            
-            // Reset form
-            document.getElementById('fileInput').value = '';
-            selectedFiles = [];
-          } else {
-            fileInfo.innerHTML = `❌ Gagal mengunggah file: ${data.message || 'Unknown error'}`;
-            fileInfo.className = 'file-info error';
-          }
-          
-          // Reset UI
+
+              updateUploadedFilesDisplay();
+              updateServerDataDisplay();
+
+              // Show success popup
+              showFileUploadSuccessPopup();
+
+              // Reset form
+              document.getElementById('fileInput').value = '';
+              fileInfo.style.display = 'none';
+              uploadBtn.style.display = 'none';
+              selectedFiles = [];
+            } else {
+              throw new Error(data.message || 'Unknown error');
+            }
+
+            // Reset UI
+            uploadBtn.disabled = false;
+            uploadBtn.textContent = '📤 Kirim File';
+            progressContainer.style.display = 'none';
+          }, 500);
+        })
+        .catch(error => {
+          clearInterval(progressInterval);
+          console.error('[v0] Upload error:', error);
+
+          fileInfo.innerHTML = `❌ Gagal mengunggah ${selectedFiles.length} file`;
+          fileInfo.className = 'file-info error';
+          alert('❌ Gagal mengunggah file:\n' + error.message + '\n\nSilakan coba lagi atau periksa koneksi internet.');
+
           uploadBtn.disabled = false;
           uploadBtn.textContent = '📤 Kirim File';
-          uploadBtn.style.display = 'none';
           progressContainer.style.display = 'none';
-        }, 500);
-      })
-      .catch(error => {
-        clearInterval(progressInterval);
-        console.error('[v0] Upload error:', error);
-        
-        fileInfo.innerHTML = `❌ Gagal mengunggah ${selectedFiles.length} file`;
-        fileInfo.className = 'file-info error';
-        
-        uploadBtn.disabled = false;
-        uploadBtn.textContent = '📤 Kirim File';
-        progressContainer.style.display = 'none';
-      });
+        });
     }
 
     function updateUploadedFilesDisplay() {
@@ -936,7 +1005,7 @@
         </div>
       `;
       
-      html += uploadedFiles.map(file => `
+      html += uploadedFiles.map((file, index) => `
         <div class="uploaded-file-item">
           <div class="file-icon">${getFileIcon(file.type || 'unknown')}</div>
           <div class="file-details">
@@ -946,10 +1015,90 @@
             </div>
             ${file.status ? `<div style="font-size: 10px; color: #22c55e; margin-top: 2px;">✅ ${file.status}</div>` : ''}
           </div>
+          <button class="file-remove" onclick="removeUploadedFile(${index})">🗑️</button>
         </div>
       `).join('');
       
       container.innerHTML = html;
+    }
+
+    function updateServerDataDisplay() {
+      const container = document.getElementById('serverDataDisplay');
+      if (!container) return;
+      if (uploadedFiles.length === 0) {
+        container.innerHTML = '<div class="no-files-message">Belum ada data JSON terkirim</div>';
+        return;
+      }
+      container.innerHTML = uploadedFiles.map(file => `
+        <div class="uploaded-file-item">
+          <div class="file-details">
+            <div class="file-name">${file.name}</div>
+            <pre class="file-meta" style="white-space:pre-wrap">${JSON.stringify(file.webhookResponse, null, 2)}</pre>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function removeUploadedFile(index) {
+      const file = uploadedFiles[index];
+      if (!file) return;
+
+      if (file.webhookResponse) {
+        try {
+          const deletePayload = {
+            ...file.webhookResponse,
+            action: 'deleteFile',
+            timestamp: new Date().toISOString(),
+            deletedFileName: file.name,
+            deletedFileId: file.id
+          };
+
+          const response = await fetch(CONSTANTS.URL_UPLOAD, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(deletePayload)
+          });
+
+          if (!response.ok) throw new Error('HTTP ' + response.status);
+
+          uploadedFiles.splice(index, 1);
+          updateUploadedFilesDisplay();
+          updateServerDataDisplay();
+          showFileDeleteSuccessPopup();
+        } catch (error) {
+          console.error('Error deleting file:', error);
+          alert('❌ Gagal menghapus file:\n' + error.message + '\n\nSilakan coba lagi atau periksa koneksi internet.');
+        }
+      } else {
+        uploadedFiles.splice(index, 1);
+        updateUploadedFilesDisplay();
+        updateServerDataDisplay();
+      }
+    }
+
+    function showFileDeleteSuccessPopup() {
+      const deleteSuccessPopup = document.createElement('div');
+      deleteSuccessPopup.className = 'popup-overlay';
+      deleteSuccessPopup.id = 'fileDeleteSuccessPopup';
+      deleteSuccessPopup.innerHTML = `
+        <div class="popup">
+          <div class="popup-icon">🗑️</div>
+          <div class="popup-title">File Berhasil Dihapus</div>
+          <div class="popup-message">
+            File telah berhasil dihapus dari sistem.
+          </div>
+          <button class="popup-btn" onclick="closeFileDeleteSuccessPopup()">OK</button>
+        </div>
+      `;
+      document.body.appendChild(deleteSuccessPopup);
+      deleteSuccessPopup.style.display = 'flex';
+    }
+
+    function closeFileDeleteSuccessPopup() {
+      const popup = document.getElementById('fileDeleteSuccessPopup');
+      if (popup) {
+        popup.remove();
+      }
     }
 
     function getFileIcon(fileType) {
@@ -988,12 +1137,14 @@
                 type: doc.tipe || 'application/octet-stream',
                 uploadDate: doc.tanggal_upload || new Date().toISOString(),
                 url: doc.url || '#',
-                status: 'Dari JSON data'
+                status: 'Dari JSON data',
+                webhookResponse: doc
               });
             }
           });
           
           updateUploadedFilesDisplay();
+          updateServerDataDisplay();
         }
       } catch (error) {
         console.error('[v0] Error initializing files from JSON:', error);
@@ -1025,11 +1176,11 @@
         if (data.success) {
           showPopup();
         } else {
-          alert('Gagal membuat surat.');
+          alert('❌ Gagal membuat surat:\n' + (data.message || 'Unknown error') + '\n\nSilakan coba lagi atau periksa koneksi internet.');
         }
       })
       .catch(error => {
-        alert('Gagal membuat surat.');
+        alert('❌ Gagal membuat surat:\n' + error.message + '\n\nSilakan coba lagi atau periksa koneksi internet.');
       });
     }
 
@@ -1055,13 +1206,13 @@
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          alert('Surat dan data berhasil dihapus.');
+          showDeleteSuccessPopup();
         } else {
-          alert('Gagal menghapus surat dan data.');
+          alert('❌ Gagal menghapus data:\n' + (data.message || 'Unknown error') + '\n\nSilakan coba lagi atau periksa koneksi internet.');
         }
       })
       .catch(error => {
-        alert('Gagal menghapus surat dan data.');
+        alert('❌ Gagal menghapus data:\n' + error.message + '\n\nSilakan coba lagi atau periksa koneksi internet.');
       });
     }
 
@@ -1103,16 +1254,16 @@
       })
       .then(response => response.json())
       .then(data => {
-        if (data.success || response.ok) {
+        if (data.success) {
           originalData = { ...updatedData };
-          showPopup();
+          showSaveSuccessPopup();
           toggleEditMode();
         } else {
-          alert('Gagal menyimpan perubahan. Silakan coba lagi.');
+          alert('❌ Gagal menyimpan perubahan:\n' + (data.message || 'Unknown error') + '\n\nSilakan coba lagi atau periksa koneksi internet.');
         }
       })
       .catch(error => {
-        alert('Gagal menyimpan perubahan. Periksa koneksi internet.');
+        alert('❌ Gagal menyimpan perubahan:\n' + error.message + '\n\nSilakan coba lagi atau periksa koneksi internet.');
       });
     }
 
