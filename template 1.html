@@ -1,0 +1,1160 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kawe Nia • Layanan SKTM</title>
+  <style>
+    :root{
+      --bg:#0b1020;          /* latar belakang halaman */
+      --panel:#0f172a;       /* dasar kartu */
+      --ink:#e5e7eb;         /* teks utama */
+      --muted:#9ca3af;       /* teks sekunder */
+      --accent:#22c55e;      /* aksen hijau */
+      --accent-2:#38bdf8;    /* aksen biru */
+      --line:#1f2937;        /* garis tipis border */
+      --danger:#ef4444;
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --space: clamp(14px, 2.4vw, 22px);
+    }
+
+    /* ====== Reset kecil agar teks selalu wrap dan tidak terpotong ====== */
+    *{ box-sizing:border-box }
+    html,body{ height:100% }
+    body{
+      margin:0;
+      font-family: Inter, ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 600px at 20% -10%, #16223f 0%, transparent 60%),
+        linear-gradient(145deg,#0a0e1a,#0f1933 55%,#0a0e1a);
+    }
+    /* Pastikan SEMUA elemen bisa mengecil dan membungkus teks panjang */
+    body, body *{
+      min-width:0;                   /* izinkan shrink di flex/grid */
+      overflow-wrap:anywhere;        /* bungkus kata sangat panjang/URL */
+      word-break:break-word;         /* jaga kalau ada string tanpa spasi */
+      white-space:normal;            /* jangan paksa satu baris */
+    }
+
+    .wrap{ max-width:1100px; margin:40px auto; padding:0 20px }
+
+    /* Header */
+    .topbar{ display:flex; align-items:center; gap:16px; margin-bottom:18px }
+    .brand{ display:flex; align-items:center; gap:12px; min-width:0 }
+    .brand img{
+      width:44px; height:44px; object-fit:cover; border-radius:10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,.35)
+    }
+    .brand .title{ font-weight:700; font-size: clamp(16px,2.4vw,20px) }
+    .brand .sub{ font-size:12px; color:var(--muted) }
+    .pill{
+      margin-left:auto; display:flex; gap:8px; align-items:center; font-size:12px; color:#cbd5e1;
+      background:linear-gradient(180deg, rgba(56,189,248,.2), rgba(34,197,94,.15));
+      border:1px solid rgba(148,163,184,.3); padding:6px 10px; border-radius:999px;
+      flex-shrink:0;
+    }
+
+    /* Main Card */
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
+      border:1px solid rgba(148,163,184,.2);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card-header{
+      display:flex; flex-wrap:wrap; gap:14px; align-items:center; justify-content:space-between;
+      padding: clamp(14px, 2.2vw, 20px) var(--space);
+      background:
+        radial-gradient(800px 300px at 10% -20%, rgba(56,189,248,.15), transparent 60%),
+        radial-gradient(600px 300px at 90% -30%, rgba(34,197,94,.18), transparent 55%);
+      border-bottom:1px solid rgba(148,163,184,.2);
+    }
+    /* Increased gap and added margin-bottom for better spacing */
+    .hgroup{ display:flex; flex-direction:column; gap:8px; min-width:0; margin-bottom:4px }
+    .h1{ font-size: clamp(18px, 2.8vw, 26px); font-weight:800; letter-spacing:.3px; margin-bottom:2px }
+    .h2{ font-size: 13px; color: var(--muted); margin-top:2px }
+    .badges{ display:flex; gap:8px; flex-wrap:wrap; min-width:0; margin-top:6px }
+    .badge{
+      font-size:12px; padding:6px 10px; border-radius:999px;
+      background:#0b1224; border:1px solid rgba(148,163,184,.26)
+    }
+    .badge.success{ border-color: rgba(34,197,94,.45); background: rgba(34,197,94,.12); color:#d1fae5 }
+    .badge.info{ border-color: rgba(56,189,248,.45); background: rgba(56,189,248,.12); color:#cffafe }
+
+    /* Content Grid */
+    .grid{
+      display:grid; grid-template-columns: 1.2fr .8fr; gap:0; min-height:360px;
+    }
+    @media (max-width: 960px){ .grid{ grid-template-columns: 1fr } }
+    @media (max-width: 960px){
+      .side{ background: transparent; }
+      .panel{ border-right: none; }
+    }
+
+    .panel{
+      padding: var(--space);
+      border-right:1px solid rgba(148,163,184,.16);
+    }
+    .panel:last-child{ border-right:none }
+
+    /* Section titles */
+    .stitle{
+      font-size:13px; letter-spacing:.4px; text-transform:uppercase;
+      color:#a5b4fc; font-weight:700; margin-bottom:10px
+    }
+
+    /* Identity table */
+    .ident{
+      display:grid;
+      grid-template-columns: 180px 12px 1fr; /* label : ':' : nilai */
+      gap:8px 12px; align-items:start; font-size:14px;
+      background: rgba(15,23,42,.55);
+      border:1px solid rgba(148,163,184,.15);
+      border-radius:14px; padding:14px;
+    }
+    /* Adaptasi label agar tidak memaksa potong saat layar kecil */
+    @media (max-width: 560px){
+      .ident{ grid-template-columns: 110px 10px 1fr }
+    }
+    .lab{ color:#cbd5e1 }
+    .sep{ color:#475569 }
+    .val{ color:#e5e7eb; font-weight:600; line-height:1.5 }
+
+    /* Keterangan list */
+    ol.ket{ margin:10px 0 0 18px; padding:0 }
+    ol.ket li{ margin:8px 0; line-height:1.5 }
+
+    .note{
+      margin-top:12px; font-size:12.5px; color:#a5b4fc;
+      background:rgba(99,102,241,.1);
+      border:1px dashed rgba(99,102,241,.35);
+      border-radius:12px; padding:10px 12px
+    }
+
+    /* Right panel: actions */
+    .side{
+      display:flex; flex-direction:column; gap:14px; padding: var(--space);
+      background: linear-gradient(180deg, rgba(2,6,23,.35), rgba(2,6,23,.15));
+    }
+    .callout{
+      border:1px solid rgba(56,189,248,.35); background: rgba(56,189,248,.1);
+      border-radius:14px; padding:12px 14px; font-size:13px; color:#e0f2fe
+    }
+    .actions{ display:flex; flex-wrap:wrap; gap:10px }
+    .btn{
+      appearance:none; border:none; cursor:pointer; font-weight:700; letter-spacing:.3px;
+      background:#0b1224; color:#e5e7eb; padding:10px 14px; border-radius:12px;
+      border:1px solid rgba(148,163,184,.3);
+    }
+    .btn.primary{
+      background: linear-gradient(180deg, rgba(34,197,94,.9), rgba(16,185,129,.9));
+      border-color: rgba(16,185,129,.9); color:#052e1a
+    }
+    .btn.ghost{ background: transparent }
+    .btn:active{ transform: translateY(1px) }
+
+    /* Edit mode styles */
+    .edit-mode .val {
+      display: none;
+    }
+    .edit-mode .edit-field {
+      display: block;
+    }
+    .edit-field {
+      display: none;
+      width: 100%;
+      background: rgba(15,23,42,.8);
+      border: 1px solid rgba(56,189,248,.4);
+      border-radius: 8px;
+      padding: 8px 10px;
+      color: #e5e7eb;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .edit-field:focus {
+      outline: none;
+      border-color: rgba(56,189,248,.8);
+      box-shadow: 0 0 0 2px rgba(56,189,248,.2);
+    }
+    .edit-actions {
+      display: none;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .edit-mode .edit-actions {
+      display: flex;
+    }
+    .btn.success {
+      background: linear-gradient(180deg, rgba(34,197,94,.9), rgba(16,185,129,.9));
+      border-color: rgba(16,185,129,.9); 
+      color: #052e1a;
+    }
+    .btn.danger {
+      background: linear-gradient(180deg, rgba(239,68,68,.9), rgba(220,38,38,.9));
+      border-color: rgba(220,38,38,.9); 
+      color: #fef2f2;
+    }
+
+    /* File upload styles */
+    .file-upload-container {
+      background: rgba(15,23,42,.55);
+      border: 1px solid rgba(148,163,184,.15);
+      border-radius: 14px;
+      padding: 14px;
+    }
+    
+    .file-info {
+      background: rgba(34,197,94,.1);
+      border: 1px solid rgba(34,197,94,.3);
+      border-radius: 8px;
+      padding: 8px 10px;
+      margin-bottom: 8px;
+      font-size: 12px;
+      color: #d1fae5;
+    }
+    
+    .file-info.error {
+      background: rgba(239,68,68,.1);
+      border-color: rgba(239,68,68,.3);
+      color: #fee2e2;
+    }
+    
+    .upload-progress {
+      width: 100%;
+      height: 4px;
+      background: rgba(148,163,184,.2);
+      border-radius: 2px;
+      overflow: hidden;
+      margin: 8px 0;
+    }
+    
+    .upload-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #22c55e, #16a34a);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    /* Uploaded files styles */
+    .uploaded-files-container {
+      background: rgba(15,23,42,.55);
+      border: 1px solid rgba(148,163,184,.15);
+      border-radius: 14px;
+      padding: 14px;
+      min-height: 60px;
+    }
+    
+    .no-files-message {
+      color: #9ca3af;
+      font-size: 13px;
+      text-align: center;
+      font-style: italic;
+    }
+    
+    .uploaded-file-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      background: rgba(34,197,94,.1);
+      border: 1px solid rgba(34,197,94,.3);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+    
+    .uploaded-file-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .file-icon {
+      font-size: 16px;
+      color: #22c55e;
+      flex-shrink: 0;
+    }
+    
+    .file-details {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .file-name {
+      color: #d1fae5;
+      font-weight: 600;
+      margin-bottom: 2px;
+      word-break: break-all;
+    }
+    
+    .file-meta {
+      color: #a5b4fc;
+      font-size: 11px;
+    }
+    
+    .file-remove {
+      background: rgba(239,68,68,.1);
+      border: 1px solid rgba(239,68,68,.3);
+      color: #fee2e2;
+      border-radius: 4px;
+      padding: 4px 6px;
+      font-size: 10px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    
+    .file-remove:hover {
+      background: rgba(239,68,68,.2);
+    }
+
+    /* Footer */
+    .card-footer{
+      display:flex; gap:14px; justify-content:space-between; align-items:center;
+      padding: 12px var(--space); border-top:1px solid rgba(148,163,184,.2);
+      color:var(--muted); font-size:12px
+    }
+
+    /* Custom Popup Styles */
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      backdrop-filter: blur(4px);
+    }
+    
+    .popup {
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border: 1px solid rgba(148,163,184,.3);
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+      position: relative;
+      animation: popupSlideIn 0.3s ease-out;
+    }
+    
+    @keyframes popupSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    
+    .popup-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+    
+    .popup-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #e5e7eb;
+      margin-bottom: 15px;
+      letter-spacing: 0.5px;
+    }
+    
+    .popup-message {
+      font-size: 14px;
+      color: #cbd5e1;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+    
+    .popup-btn {
+      background: linear-gradient(180deg, rgba(34,197,94,.9), rgba(16,185,129,.9));
+      border: none;
+      color: #052e1a;
+      padding: 12px 30px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .popup-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 25px rgba(34,197,94,.3);
+    }
+    
+    .popup-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Print */
+    @media print{
+      .side{ display:none }
+      body{ background:#fff }
+      .card{ border:none; box-shadow:none }
+      .pill{ display:none }
+      .popup-overlay{ display:none !important }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- Top Bar -->
+    <div class="topbar">
+      <div class="brand">
+        <!-- Updated LogoURL reference from $json.data[0] to $json[0] -->
+        <img class="logo" src="{{ $json.data[0].LogoURL }}" alt="Lambang Kabupaten">
+        <div>
+          <div class="title">Kawe Nia • Pelayanan Masyarakat</div>
+          <div class="sub">Distrik Wania, Kabupaten Mimika</div>
+        </div>
+      </div>
+      <div class="pill">Layanan aktif • 24/7</div>
+    </div>
+
+    <!-- Main Card -->
+    <section class="card" role="region" aria-label="Layanan SKTM">
+      <header class="card-header">
+        <div class="hgroup">
+          <!-- Updated JSON structure from $json[0] to $json.data[0] -->
+          <div class="h1">{{ $json.data[0].jenis_surat }}</div>
+          <div class="h2">Nomor:
+            <span class="mono">{{ $json.data[0].nomor_surat }}</span>
+          </div>
+        </div>
+        <div class="badges">
+          <span class="badge info">Status: Menunggu Tanda Tangan</span>
+        </div>
+      </header>
+
+      <div class="grid">
+        <!-- Left: Data & Keterangan -->
+        <div class="panel">
+          <div class="stitle">Data Pemohon</div> 
+          <button class="btn ghost" onclick="toggleEditMode()" id="editBtn" style="margin-bottom: 12px;">✏️ Edit Data</button>
+          <div class="ident" aria-label="Identitas Pemohon">
+            <!-- Updated all pemohon data references to use $json.data[0] structure -->
+            <div class="lab">Nama</div><div class="sep">:</div>
+            <div class="val">{{ $json.data[0].pemohon.nama }}</div>
+            <input type="text" class="edit-field" id="editNama" value="{{ $json.data[0].pemohon.nama }}" placeholder="Masukkan nama lengkap">
+            
+            <div class="lab">NIK</div><div class="sep">:</div>
+            <div class="val mono">{{ $json.data[0].pemohon.nik }}</div>
+            <input type="text" class="edit-field" id="editNIK" value="{{ $json.data[0].pemohon.nik }}" placeholder="Masukkan NIK">
+            
+            <div class="lab">Tempat/Tgl Lahir</div><div class="sep">:</div>
+            <div class="val">{{ $json.data[0].pemohon.ttl }}</div>
+            <input type="text" class="edit-field" id="editTTL" value="{{ $json.data[0].pemohon.ttl }}" placeholder="Contoh: Jakarta, 15 Januari 1990">
+            
+            <div class="lab">Agama</div><div class="sep">:</div>
+            <div class="val">{{ $json.data[0].pemohon.agama }}</div>
+            <input type="text" class="edit-field" id="editAgama" value="{{ $json.data[0].pemohon.agama }}" placeholder="Masukkan agama">
+            
+            <div class="lab">Jenis Kelamin</div><div class="sep">:</div>
+            <div class="val">{{ $json.data[0].pemohon.jenis_kelamin }}</div>
+            <select class="edit-field" id="editJenisKelamin">
+              <option value="LAKI-LAKI" {{ $json.data[0].pemohon.jenis_kelamin == 'LAKI-LAKI' ? 'selected' : '' }}>Laki-laki</option>
+              <option value="PEREMPUAN" {{ $json.data[0].pemohon.jenis_kelamin == 'PEREMPUAN' ? 'selected' : '' }}>Perempuan</option>
+            </select>
+            
+            <div class="lab">Status Perkawinan</div><div class="sep">:</div>
+            <div class="val">{{ $json.data[0].pemohon.status_perkawinan }}</div>
+            <select class="edit-field" id="editStatusPerkawinan">
+              <option value="BELUM KAWIN" {{ $json.data[0].pemohon.status_perkawinan == 'BELUM KAWIN' ? 'selected' : '' }}>Belum Kawin</option>
+              <option value="KAWIN" {{ $json.data[0].pemohon.status_perkawinan == 'KAWIN' ? 'selected' : '' }}>Kawin</option>
+              <option value="CERAI HIDUP" {{ $json.data[0].pemohon.status_perkawinan == 'CERAI HIDUP' ? 'selected' : '' }}>Cerai Hidup</option>
+              <option value="CERAI MATI" {{ $json.data[0].pemohon.status_perkawinan == 'CERAI MATI' ? 'selected' : '' }}>Cerai Mati</option>
+            </select>
+            
+            <div class="lab">Pekerjaan</div><div class="sep">:</div>
+            <div class="val">{{ $json.data[0].pemohon.pekerjaan }}</div>
+            <input type="text" class="edit-field" id="editPekerjaan" value="{{ $json.data[0].pemohon.pekerjaan }}" placeholder="Masukkan pekerjaan">
+            
+            <div class="lab">Alamat</div><div class="sep">:</div>
+            <div class="val">{{ $json.data[0].pemohon.alamat }}</div>
+            <textarea class="edit-field" id="editAlamat" placeholder="Masukkan alamat lengkap" rows="2">{{ $json.data[0].pemohon.alamat }}</textarea>
+
+            <div class="lab">Kelurahan</div><div class="sep">:</div>
+            <div class="val">{{ $json.data[0].pemohon.kelurahan }}</div>
+            <input type="text" class="edit-field" id="editKelurahan" value="{{ $json.data[0].pemohon.kelurahan }}" placeholder="Masukkan kelurahan">
+            
+            <div class="lab">Kecamatan</div><div class="sep">:</div>
+            <div class="val">{{ $json.data[0].pemohon.kecamatan }}</div>
+            <input type="text" class="edit-field" id="editKecamatan" value="{{ $json.data[0].pemohon.kecamatan }}" placeholder="Masukkan kecamatan">
+            
+            <div class="lab">Kota/Kabupaten</div><div class="sep">:</div>
+            <div class="val">{{ $json.data[0].pemohon.kota_kab }}</div>
+            <input type="text" class="edit-field" id="editKotaKab" value="{{ $json.data[0].pemohon.kota_kab }}" placeholder="Masukkan kota/kabupaten">
+            
+            <div class="lab">Provinsi</div><div class="sep">:</div>
+            <div class="val">{{ $json.data[0].pemohon.provinsi }}</div>
+            <input type="text" class="edit-field" id="editProvinsi" value="{{ $json.data[0].pemohon.provinsi }}" placeholder="Masukkan provinsi">
+          </div>
+          
+          <!-- Improved file upload section with better multiple file handling -->
+          <div class="stitle" style="margin-top:10px">Lampiran </div>
+          <div class="callout" style="border-color:rgba(239,68,68,.45); background:rgba(239,68,68,.08); color:#fee2e2">
+            <div>Foto rumah, surat keterangan RT/RW, atau kartu BPJS dapat dilampirkan di sini.</div>
+          </div>
+          <div class="stitle" style="margin-top:10px">Upload File</div>
+          <div class="file-upload-container" 
+               ondragover="handleDragOver(event)" 
+               ondragleave="handleDragLeave(event)" 
+               ondrop="handleDrop(event)">
+            <input type="file" id="fileInput" accept="*" multiple style="display: none;" onchange="handleFileSelect(event)">
+            <button class="btn ghost" onclick="document.getElementById('fileInput').click()" style="width: 100%; margin-bottom: 8px;">
+              📁 Pilih File
+            </button>
+            <div style="font-size: 11px; color: #9ca3af; text-align: center; margin-bottom: 8px;">
+              (PDF, DOC, XLS, PPT, ZIP, RAR, dll)
+            </div>
+            <div id="fileInfo" style="display: none;"></div>
+            <div id="uploadProgress" class="upload-progress" style="display: none;">
+              <div id="uploadProgressBar" class="upload-progress-bar"></div>
+            </div>
+            <button class="btn primary" id="uploadBtn" onclick="uploadFiles()" style="width: 100%; display: none;">
+              📤 Kirim File
+            </button>
+          </div>
+
+          <!-- Added uploaded files display section -->
+          <div class="stitle" style="margin-top:16px">File Terupload</div>
+          <div class="uploaded-files-container">
+            <div id="uploadedFilesList">
+              <div class="no-files-message">Belum ada file yang diupload</div>
+            </div>
+          </div>
+          
+          <div class="edit-actions">
+            <button class="btn success" onclick="saveChanges()">💾 Simpan Perubahan</button>
+            <button class="btn danger" onclick="cancelEdit()">❌ Batal</button>
+          </div>
+
+          
+          <div class="note">
+            Catatan: Periksa Data Sebelum Buat Surat.
+          </div>
+
+          <!-- Keterangan Section -->
+          <div class="stitle" style="margin-top:16px">Keterangan</div>
+            <div class="file-upload-container"  style="margin-bottom: 16px; line-height: 1.6; font-size: 14px;">
+            <div style="margin-bottom: 8px;">
+              1. Tersebut namanya diatas adalah benar - benar penduduk <strong>Kelurahan {{ $json.data[0].pemohon.kelurahan }}</strong>
+            </div>
+            <div style="margin-bottom: 8px;">
+              2. Tersebut namanya diatas adalah benar - berstatus ekonomi lemah yang tidak mampu menebus atau membayar biaya pengobatan <strong>BPJS / KIS</strong>
+            </div>
+            <div style="margin-bottom: 8px;">
+              3. Mohon surat keterangan ini digunakan sebagaimana mestinya.
+            </div>
+            <div style="margin-top: 12px; font-style: italic;">
+              Demikian surat keterangan tidak mampu ini, kami buat untuk dapat digunakan sebagaimana mestinya.
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Actions & Meta -->
+        <aside class="side">
+          <div class="stitle">Tindakan</div>
+          <div class="actions">
+            <button class="btn primary" onclick="generateAndSendLetter()">Buat Surat & Kirim Data</button>
+            <button class="btn danger" onclick="deleteLetterAndData()">Hapus Surat & Hapus Data</button>
+          </div>
+
+          <div class="stitle" style="margin-top:10px">Ringkasan</div>
+          <div class="callout">
+            <!-- Updated system data references to use $json.data[0] structure -->
+            <div><b>Operator:</b> {{ $json.data[0].operator }}</div>
+            <div><b>Tanggal:</b> {{ $json.data[0].tanggal_surat }}</div>
+            <div><b>Referensi:</b> {{ $json.data[0].ref }}</div>
+            <div><b>From:</b> {{ $json.data[0].WAHA_Trigger_payload_from }}</div>
+          </div>
+
+          
+        </aside>
+      </div>
+
+      <footer class="card-footer">
+        <div>© {{ (new Date()).getFullYear() }} Pemerintah Distrik Wania • Kawe Nia</div>
+      </footer>
+    </section>
+  </div>
+
+  <!-- Custom Popup for Create Letter -->
+  <div class="popup-overlay" id="popupOverlay">
+    <div class="popup">
+      <div class="popup-icon">📄</div>
+      <div class="popup-title">Surat Berhasil Dibuat</div>
+      <div class="popup-message">
+        Data dan surat Anda sudah berhasil dikirim ke kantor. Mohon tunggu notifikasi selanjutnya untuk tanda tangan dari Kepala Distrik.
+      </div>
+      <button class="popup-btn" onclick="closePopup()">OK</button>
+    </div>
+  </div>
+
+  <script>
+    // ====== VARIABEL TETAP ======
+    const CONSTANTS = {
+      ID_USER: "{{ $json.id }}",
+      URL_CREATE: "{{ $json.data[0].URL_CREATE }}",
+      URL_UPDATE: "{{ $json.data[0].URL_UPDATE }}",
+      URL_DELETE: "{{ $json.data[0].URL_DELETE }}",
+      URL_UPLOAD: "{{ $json.data[0].URL_UPLOAD }}",
+      URL_DELETE_FILE: "{{ $json.data[0].URL_DELETE_FILE }}",      
+      URL_WEB_LINK: window.location.href
+    };
+
+    let selectedFiles = [];
+    let uploadedFiles = [];
+
+    let isEditMode = false;
+    let originalData = {};
+
+    // ====== FUNGSI UTAMA ======
+    function collectFormData(action) {
+      const safeUploadedFiles = Array.isArray(uploadedFiles) ? uploadedFiles : [];
+      
+      return {
+          jenis_surat: '{{ $json.data[0].jenis_surat }}',
+          nomor_surat: '{{ $json.data[0].nomor_surat }}',
+          tanggal_surat: '{{ $json.data[0].tanggal_surat }}',
+          
+          pemohon: {
+            nama: '{{ $json.data[0].pemohon.nama }}',
+            nik: '{{ $json.data[0].pemohon.nik }}',
+            ttl: '{{ $json.data[0].pemohon.ttl }}',
+            agama: '{{ $json.data[0].pemohon.agama }}',
+            jenis_kelamin: '{{ $json.data[0].pemohon.jenis_kelamin }}',
+            status_perkawinan: '{{ $json.data[0].pemohon.status_perkawinan }}',
+            pekerjaan: '{{ $json.data[0].pemohon.pekerjaan }}',
+            alamat: '{{ $json.data[0].pemohon.alamat }}',
+            kelurahan: '{{ $json.data[0].pemohon.kelurahan }}',
+            kecamatan: '{{ $json.data[0].pemohon.kecamatan }}',
+            kota_kab: '{{ $json.data[0].pemohon.kota_kab }}',
+            provinsi: '{{ $json.data[0].pemohon.provinsi }}'
+          },
+          
+          dokumen: {{ JSON.stringify($json.data[0].dokumen) }},
+          
+          penandatangan: {
+            nama: '{{ $json.data[0].penandatangan.nama }}',
+            nip: '{{ $json.data[0].penandatangan.nip }}',
+            jabatan: '{{ $json.data[0].penandatangan.jabatan }}'
+          },
+          
+          operator: '{{ $json.data[0].operator }}',
+          ref: '{{ $json.data[0].ref }}',
+          WAHA_Trigger_session: '{{ $json.data[0].WAHA_Trigger_session }}',
+          WAHA_Trigger_payload_from: '{{ $json.data[0].WAHA_Trigger_payload_from }}',
+          LogoURL: '{{ $json.data[0].LogoURL }}',
+          
+          metadata: {
+            action: action || 'unknown',
+            timestamp: new Date().toISOString(),
+            id_user: CONSTANTS.ID_USER,
+            uploaded_files: safeUploadedFiles,
+            total_files: safeUploadedFiles.length
+          }
+        };
+    }
+
+    function showPopup() {
+      // Create and show custom popup
+      const popup = document.createElement('div');
+      popup.className = 'popup-overlay';
+      popup.innerHTML = `
+        <div class="popup">
+          <div class="popup-icon">✅</div>
+          <div class="popup-title">Berhasil!</div>
+          <div class="popup-message">Data telah berhasil disimpan.</div>
+          <button class="popup-btn" onclick="closePopup()">OK</button>
+        </div>
+      `;
+      document.body.appendChild(popup);
+      popup.style.display = 'flex';
+    }
+
+    function closePopup() {
+      const popup = document.querySelector('.popup-overlay');
+      if (popup) {
+        popup.remove();
+      }
+    }
+
+
+    function toggleEditMode() {
+      const card = document.querySelector('.card');
+      const editBtn = document.getElementById('editBtn');
+      
+      if (!isEditMode) {
+        // Enter edit mode
+        card.classList.add('edit-mode');
+        editBtn.textContent = '👁️ Lihat Data';
+        editBtn.classList.remove('ghost');
+        editBtn.classList.add('info');
+        
+        // Store original data
+        originalData = {
+          nama: document.querySelector('#editNama').value,
+          nik: document.querySelector('#editNIK').value,
+          ttl: document.querySelector('#editTTL').value,
+          agama: document.querySelector('#editAgama').value,
+          jenisKelamin: document.querySelector('#editJenisKelamin').value,
+          statusPerkawinan: document.querySelector('#editStatusPerkawinan').value,
+          pekerjaan: document.querySelector('#editPekerjaan').value,
+          alamat: document.querySelector('#editAlamat').value,
+          kelurahan: document.querySelector('#editKelurahan').value,
+          kecamatan: document.querySelector('#editKecamatan').value,
+          kota_kab: document.querySelector('#editKotaKab').value,
+          provinsi: document.querySelector('#editProvinsi').value
+        };
+        
+        isEditMode = true;
+      } else {
+        // Exit edit mode
+        card.classList.remove('edit-mode');
+        editBtn.textContent = '✏️ Edit Data';
+        editBtn.classList.remove('info');
+        editBtn.classList.add('ghost');
+        isEditMode = false;
+      }
+    }
+
+
+    function cancelEdit() {
+      // Restore original data
+      document.querySelector('#editNama').value = originalData.nama || '-';
+      document.querySelector('#editNIK').value = originalData.nik || '-';
+      document.querySelector('#editTTL').value = originalData.ttl || '-';
+      document.querySelector('#editAgama').value = originalData.agama || '-';
+      document.querySelector('#editJenisKelamin').value = originalData.jenisKelamin || '-';
+      document.querySelector('#editStatusPerkawinan').value = originalData.statusPerkawinan || '-';
+      document.querySelector('#editPekerjaan').value = originalData.pekerjaan || '-';
+      document.querySelector('#editAlamat').value = originalData.alamat || '-';
+      document.querySelector('#editKelurahan').value = originalData.kelurahan || '-';
+      document.querySelector('#editKecamatan').value = originalData.kecamatan || '-';
+      document.querySelector('#editKotaKab').value = originalData.kota_kab || '-';
+      document.querySelector('#editProvinsi').value = originalData.provinsi || '-';
+      
+      // Exit edit mode
+      toggleEditMode();
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const fileInput = document.getElementById('fileInput');
+      fileInput.addEventListener('change', handleFileSelect);
+      
+      // Initialize uploaded files from JSON data
+      initializeUploadedFilesFromJSON();
+      
+      // Initialize uploaded files display
+      updateUploadedFilesDisplay();
+      
+      // Add drag and drop functionality
+      const uploadContainer = document.querySelector('.file-upload-container');
+      if (uploadContainer) {
+        uploadContainer.addEventListener('dragover', handleDragOver);
+        uploadContainer.addEventListener('drop', handleDrop);
+        uploadContainer.addEventListener('dragleave', handleDragLeave);
+      }
+    });
+
+    function handleFileSelect(event) {
+      const files = Array.from(event.target.files);
+      const fileInfo = document.getElementById('fileInfo');
+      const uploadBtn = document.getElementById('uploadBtn');
+      
+      if (files.length === 0) {
+        fileInfo.style.display = 'none';
+        uploadBtn.style.display = 'none';
+        selectedFiles = [];
+        return;
+      }
+
+      selectedFiles = [];
+      let validFiles = [];
+      let errorMessages = [];
+      
+      files.forEach(file => {
+        const maxSize = 10 * 1024 * 1024; // 10MB per file
+        if (file.size > maxSize) {
+          errorMessages.push(`❌ ${file.name} terlalu besar (${(file.size / 1024 / 1024).toFixed(1)}MB). Maksimal 10MB.`);
+          return;
+        }
+        
+        validFiles.push(file);
+        selectedFiles.push(file);
+      });
+      
+      // Display results
+      let infoHTML = '';
+      if (errorMessages.length > 0) {
+        infoHTML += errorMessages.join('<br>') + '<br>';
+      }
+      
+      if (validFiles.length > 0) {
+        const totalSize = validFiles.reduce((sum, file) => sum + file.size, 0);
+        const fileList = validFiles.map(file => 
+          `• ${file.name} (${(file.size / 1024 / 1024).toFixed(2)}MB)`
+        ).join('<br>');
+        
+        infoHTML += `✅ ${validFiles.length} file dipilih:<br>${fileList}<br>📏 Total: ${(totalSize / 1024 / 1024).toFixed(2)}MB`;
+        uploadBtn.style.display = 'block';
+      } else {
+        uploadBtn.style.display = 'none';
+      }
+      
+      if (infoHTML) {
+        fileInfo.innerHTML = infoHTML;
+        fileInfo.className = errorMessages.length > 0 ? 'file-info error' : 'file-info';
+        fileInfo.style.display = 'block';
+      } else {
+        fileInfo.style.display = 'none';
+      }
+    }
+
+    function uploadFiles() {
+      if (selectedFiles.length === 0) return;
+
+      const uploadBtn = document.getElementById('uploadBtn');
+      const fileInfo = document.getElementById('fileInfo');
+      const progressContainer = document.getElementById('uploadProgress');
+      const progressBar = document.getElementById('uploadProgressBar');
+      
+      // Show progress
+      uploadBtn.disabled = true;
+      uploadBtn.textContent = '📤 Mengirim...';
+      progressContainer.style.display = 'block';
+      progressBar.style.width = '0%';
+
+      const payload = {
+        mandatory_data: getMandatoryData(),
+        id_user: CONSTANTS.ID_USER,
+        url_web_link: CONSTANTS.URL_WEB_LINK,
+        action: 'upload_multiple',
+        timestamp: new Date().toISOString(),
+        files_count: selectedFiles.length,
+        files_info: selectedFiles.map(file => ({
+          name: file.name,
+          size: file.size,
+          type: file.type
+        }))
+      };
+
+      const formData = new FormData();
+      selectedFiles.forEach((file, index) => {
+        formData.append(`files`, file);
+      });
+      formData.append('data', JSON.stringify(payload));
+
+      // Simulate progress
+      let progress = 0;
+      const progressInterval = setInterval(() => {
+        progress += Math.random() * 30;
+        if (progress > 90) progress = 90;
+        progressBar.style.width = progress + '%';
+      }, 200);
+
+      fetch(CONSTANTS.URL_UPLOAD, {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        clearInterval(progressInterval);
+        progressBar.style.width = '100%';
+        
+        setTimeout(() => {
+          if (data.success || data.status === 'success') {
+            // Add files to uploaded list
+            selectedFiles.forEach(file => {
+              uploadedFiles.push({
+                id: Date.now().toString() + Math.random(),
+                name: file.name,
+                size: file.size,
+                type: file.type,
+                uploadDate: new Date().toISOString(),
+                status: 'Berhasil diupload'
+              });
+            });
+            
+            updateUploadedFilesDisplay();
+            
+            fileInfo.innerHTML = `✅ ${selectedFiles.length} file berhasil diunggah`;
+            fileInfo.className = 'file-info';
+            
+            // Reset form
+            document.getElementById('fileInput').value = '';
+            selectedFiles = [];
+          } else {
+            fileInfo.innerHTML = `❌ Gagal mengunggah file: ${data.message || 'Unknown error'}`;
+            fileInfo.className = 'file-info error';
+          }
+          
+          // Reset UI
+          uploadBtn.disabled = false;
+          uploadBtn.textContent = '📤 Kirim File';
+          uploadBtn.style.display = 'none';
+          progressContainer.style.display = 'none';
+        }, 500);
+      })
+      .catch(error => {
+        clearInterval(progressInterval);
+        console.error('[v0] Upload error:', error);
+        
+        fileInfo.innerHTML = `❌ Gagal mengunggah ${selectedFiles.length} file`;
+        fileInfo.className = 'file-info error';
+        
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = '📤 Kirim File';
+        progressContainer.style.display = 'none';
+      });
+    }
+
+    function updateUploadedFilesDisplay() {
+      const container = document.getElementById('uploadedFilesList');
+      
+      if (uploadedFiles.length === 0) {
+        container.innerHTML = '<div class="no-files-message">Belum ada file yang diupload</div>';
+        return;
+      }
+      
+      const totalSize = uploadedFiles.reduce((sum, file) => sum + (file.size || 0), 0);
+      
+      let html = `
+        <div style="margin-bottom: 12px; padding: 8px 12px; background: rgba(56,189,248,.1); border: 1px solid rgba(56,189,248,.3); border-radius: 8px; font-size: 12px; color: #e0f2fe;">
+          📁 Total: <strong>${uploadedFiles.length}</strong> file • 📏 Total ukuran: <strong>${formatFileSize(totalSize)}</strong>
+        </div>
+      `;
+      
+      html += uploadedFiles.map(file => `
+        <div class="uploaded-file-item">
+          <div class="file-icon">${getFileIcon(file.type || 'unknown')}</div>
+          <div class="file-details">
+            <div class="file-name">${file.name}</div>
+            <div class="file-meta">
+              ${formatFileSize(file.size || 0)} • ${new Date(file.uploadDate).toLocaleString('id-ID')}
+            </div>
+            ${file.status ? `<div style="font-size: 10px; color: #22c55e; margin-top: 2px;">✅ ${file.status}</div>` : ''}
+          </div>
+        </div>
+      `).join('');
+      
+      container.innerHTML = html;
+    }
+
+    function getFileIcon(fileType) {
+      if (fileType.includes('pdf')) return '📄';
+      if (fileType.includes('image')) return '🖼️';
+      if (fileType.includes('word') || fileType.includes('document')) return '📝';
+      if (fileType.includes('excel') || fileType.includes('spreadsheet')) return '📊';
+      if (fileType.includes('powerpoint') || fileType.includes('presentation')) return '📽️';
+      if (fileType.includes('zip') || fileType.includes('rar') || fileType.includes('archive')) return '🗜️';
+      return '📎';
+    }
+
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeUploadedFilesFromJSON();
+    });
+
+    function initializeUploadedFilesFromJSON() {
+      try {
+        const dokumenArray = {{ JSON.stringify($json.data[0].dokumen) }} || [];
+        
+        if (dokumenArray && dokumenArray.length > 0) {
+          dokumenArray.forEach(doc => {
+            if (doc.nama && doc.ukuran) {
+              uploadedFiles.push({
+                id: doc.id || Date.now().toString(),
+                name: doc.nama,
+                size: parseInt(doc.ukuran) || 0,
+                type: doc.tipe || 'application/octet-stream',
+                uploadDate: doc.tanggal_upload || new Date().toISOString(),
+                url: doc.url || '#',
+                status: 'Dari JSON data'
+              });
+            }
+          });
+          
+          updateUploadedFilesDisplay();
+        }
+      } catch (error) {
+        console.error('[v0] Error initializing files from JSON:', error);
+      }
+    }
+
+    function generateAndSendLetter() {
+      const payload = {
+        // Mandatory data structure
+        mandatory_data: getMandatoryData(),
+        id_user: CONSTANTS.ID_USER,
+        url_web_link: CONSTANTS.URL_WEB_LINK,
+        
+        // Additional data for create action
+        action: 'create',
+        timestamp: new Date().toISOString(),
+        uploaded_files: uploadedFiles
+      };
+      
+      fetch(CONSTANTS.URL_CREATE, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          showPopup();
+        } else {
+          alert('Gagal membuat surat.');
+        }
+      })
+      .catch(error => {
+        alert('Gagal membuat surat.');
+      });
+    }
+
+    function deleteLetterAndData() {
+      const payload = {
+        // Mandatory data structure
+        mandatory_data: getMandatoryData(),
+        id_user: CONSTANTS.ID_USER,
+        url_web_link: CONSTANTS.URL_WEB_LINK,
+        
+        // Additional data for delete action
+        action: 'delete',
+        timestamp: new Date().toISOString()
+      };
+      
+      fetch(CONSTANTS.URL_DELETE, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('Surat dan data berhasil dihapus.');
+        } else {
+          alert('Gagal menghapus surat dan data.');
+        }
+      })
+      .catch(error => {
+        alert('Gagal menghapus surat dan data.');
+      });
+    }
+
+    function saveChanges() {
+      const updatedData = {
+        nama: document.querySelector('#editNama').value,
+        nik: document.querySelector('#editNIK').value,
+        ttl: document.querySelector('#editTTL').value,
+        agama: document.querySelector('#editAgama').value,
+        jenis_kelamin: document.querySelector('#editJenisKelamin').value,
+        status_perkawinan: document.querySelector('#editStatusPerkawinan').value,
+        pekerjaan: document.querySelector('#editPekerjaan').value,
+        alamat: document.querySelector('#editAlamat').value,
+        kelurahan: document.querySelector('#editKelurahan').value,
+        kecamatan: document.querySelector('#editKecamatan').value,
+        kota_kab: document.querySelector('#editKotaKab').value,
+        provinsi: document.querySelector('#editProvinsi').value
+      };
+
+      const payload = {
+        // Mandatory data structure
+        mandatory_data: getMandatoryData(),
+        id_user: CONSTANTS.ID_USER,
+        url_web_link: CONSTANTS.URL_WEB_LINK,
+        
+        // Additional data for update action
+        action: 'update',
+        timestamp: new Date().toISOString(),
+        data_sebelum: originalData,
+        data_sesudah: updatedData
+      };
+
+      fetch(CONSTANTS.URL_UPDATE, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success || response.ok) {
+          originalData = { ...updatedData };
+          showPopup();
+          toggleEditMode();
+        } else {
+          alert('Gagal menyimpan perubahan. Silakan coba lagi.');
+        }
+      })
+      .catch(error => {
+        alert('Gagal menyimpan perubahan. Periksa koneksi internet.');
+      });
+    }
+
+    function getMandatoryData() {
+      return [
+        {
+          jenis_surat: "{{ $json.data[0].jenis_surat }}",
+          nomor_surat: "{{ $json.data[0].nomor_surat }}",
+          tanggal_surat: "{{ $json.data[0].tanggal_surat }}",
+          pemohon: {
+            nama: "{{ $json.data[0].pemohon.nama }}",
+            nik: "{{ $json.data[0].pemohon.nik }}",
+            ttl: "{{ $json.data[0].pemohon.ttl }}",
+            agama: "{{ $json.data[0].pemohon.agama }}",
+            jenis_kelamin: "{{ $json.data[0].pemohon.jenis_kelamin }}",
+            status_perkawinan: "{{ $json.data[0].pemohon.status_perkawinan }}",
+            pekerjaan: "{{ $json.data[0].pemohon.pekerjaan }}",
+            alamat: "{{ $json.data[0].pemohon.alamat }}",
+            kelurahan: "{{ $json.data[0].pemohon.kelurahan }}",
+            kecamatan: "{{ $json.data[0].pemohon.kecamatan }}",
+            kota_kab: "{{ $json.data[0].pemohon.kota_kab }}",
+            provinsi: "{{ $json.data[0].pemohon.provinsi }}"
+          },
+          dokumen: {{ JSON.stringify($json.data[0].dokumen) }},
+          penandatangan: {
+            nama: "{{ $json.data[0].penandatangan.nama }}",
+            nip: "{{ $json.data[0].penandatangan.nip }}",
+            jabatan: "{{ $json.data[0].penandatangan.jabatan }}"
+          },
+          operator: "{{ $json.data[0].operator }}",
+          ref: "{{ $json.data[0].ref }}",
+          WAHA_Trigger_session: "{{ $json.data[0].WAHA_Trigger_session }}",
+          WAHA_Trigger_payload_from: "{{ $json.data[0].WAHA_Trigger_payload_from }}",
+          LogoURL: "{{ $json.data[0].LogoURL }}",
+          URL_CREATE: "{{ $json.data[0].URL_CREATE }}",
+          URL_UPDATE: "{{ $json.data[0].URL_UPDATE }}",
+          URL_DELETE: "{{ $json.data[0].URL_DELETE }}",
+          URL_UPLOAD: "{{ $json.data[0].URL_UPLOAD }}",
+          URL_DELETE_FILE: "{{ $json.data[0].URL_DELETE_FILE }}"
+        }
+      ];
+    }
+  </script>
+</body>
+</html>
